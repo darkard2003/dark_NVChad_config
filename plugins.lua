@@ -1,6 +1,7 @@
 local overrides = require "custom.configs.overrides"
 
 local M = {
+  -- lspconfig overrides
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -17,6 +18,7 @@ local M = {
       require "custom.configs.lspconfig"
     end,
   },
+  -- Nvim cmp overrides
   {
     "hrsh7th/nvim-cmp",
     opts = {
@@ -28,24 +30,39 @@ local M = {
         { name = "nvim_lua" },
         { name = "path" },
       },
+      experimental = {
+        ghost_text = true,
+      },
     },
   },
+  -- NvTerm config
   {
     "NvChad/nvterm",
     opts = overrides.nvterm,
   },
+  -- Mason config
   {
     "williamboman/mason.nvim",
     opts = overrides.mason,
   },
+  -- Project management
   {
     "ahmedkhalf/project.nvim",
     lazy = false,
     config = function()
       require("project_nvim").setup {}
       require("telescope").load_extension "projects"
+      require("nvim-tree").setup {
+        sync_root_with_cwd = true,
+        respect_buf_cwd = true,
+        update_focused_file = {
+          enable = true,
+          update_root = true,
+        },
+      }
     end,
   },
+  -- Cpoilot completion
   {
     "zbirenbaum/copilot-cmp",
     lazy = false,
@@ -64,6 +81,17 @@ local M = {
     config = function()
       require("copilot_cmp").setup()
     end,
+  },
+
+  -- AutoSave
+  {
+    "sar/AutoSave.nvim",
+    config = function()
+      require("autosave").setup {
+        enabled = false,
+      }
+    end,
+    cmd = { "ASToggle", "ASOn", "ASOff" },
   },
 }
 

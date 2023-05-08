@@ -4,6 +4,8 @@ if not present then
   return
 end
 
+local autogroups = vim.api.nvim_create_augroup("LspFormatting", {})
+
 local b = null_ls.builtins
 
 local sources = {
@@ -26,7 +28,24 @@ local sources = {
   -- b.formatting.rustfmt
 }
 
+local autoformat_on_save = function(client, buffnr)
+  if client.supports_method "textDocument/formatting" then
+    vim.api.nvim_clear_autocmds {
+      group = autogroups,
+      buffer = buffnr,
+    }
+    vim.api.nvim_create_autocmd("BufWritePost", {
+      group = autogroups,
+      buffer = buffnr,
+      callback = function()
+        vim.lsp.buf.format { bufnr = buffnr }
+      end,
+    })
+  end
+end
+
 null_ls.setup {
   debug = false,
   sources = sources,
+  on_attach = autoformat_on_save,
 }
