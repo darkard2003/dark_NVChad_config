@@ -95,7 +95,7 @@ local M = {
         enabled = false,
       }
     end,
-    cmd = { "ASToggle", "ASOn", "ASOff" },
+    cmd = { "ASToggle" },
   },
 }
 
