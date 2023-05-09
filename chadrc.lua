@@ -2,7 +2,7 @@
 local M = {}
 M.ui = {
   theme = "catppuccin",
-  transparency = false,
+  transparency = true,
   nvdash = {
     load_on_startup = true,
     buttons = {
