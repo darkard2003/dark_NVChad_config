@@ -18,6 +18,11 @@ local M = {
       require "custom.configs.lspconfig"
     end,
   },
+  -- Nvim Dap
+  {
+    "mfussenegger/nvim-dap",
+    opts = {},
+  },
   -- Nvim cmp overrides
   {
     "hrsh7th/nvim-cmp",
@@ -32,6 +37,20 @@ local M = {
       },
       experimental = {
         ghost_text = true,
+      },
+    },
+  },
+  -- Treesitter config
+  {
+    "nvim-treesitter/nvim-treesitter",
+    opts = {
+      ensure_installed = {
+        "c",
+        "lua",
+        "vim",
+        "cpp",
+        "python",
+        "rust",
       },
     },
   },
@@ -50,7 +69,9 @@ local M = {
     "ahmedkhalf/project.nvim",
     lazy = false,
     config = function()
-      require("project_nvim").setup {}
+      require("project_nvim").setup {
+        manual_mode = true,
+      }
       require("telescope").load_extension "projects"
       require("nvim-tree").setup {
         sync_root_with_cwd = true,
@@ -96,6 +117,17 @@ local M = {
       }
     end,
     cmd = { "ASToggle" },
+  },
+  {
+    "https://github.com/gorbit99/codewindow.nvim.git",
+    config = function()
+      local codewindow = require "codewindow"
+      codewindow.setup {
+        window_border = "none",
+      }
+      codewindow.apply_default_keybinds()
+    end,
+    keys = { "<leader>mm" },
   },
 }
 
